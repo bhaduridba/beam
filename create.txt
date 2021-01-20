@@ -1,9 +1,17 @@
-import apache_beam as beam
 
-p2 = beam.Pipeline()
+-------------------------------------------
+ex 1
+-------------------------------------------
+
+import apache_beam as beam
+from apache_beam.runners import runner
+from apache_beam.utils.interactive_utils import is_in_ipython
+from apache_beam.utils.interactive_utils import is_in_notebook
+
+p = beam.Pipeline()
 
 lines = (
-            p2
+            p
             | beam.Create([
                'Using create transform ',
                'to generate in memory data ',
@@ -12,52 +20,60 @@ lines = (
      
             | beam.io.WriteToText('data/outCreate1')
           )
-p2.run()  
+p.run()
+
+# check file
+!ls data
 
 # visualize output
 !{('head -n 20 data/outCreate1-00000-of-00001')}
 
 -------------------------------------------
+ex 2
+-------------------------------------------
 
 import apache_beam as beam
 
-p3 = beam.Pipeline()
+p2 = beam.Pipeline()
 
-lines1 = (p3
+lines1 = (p2
            
            | beam.Create([1,2,3,4,5,6,7,8,9])
            
            | beam.io.WriteToText('data/outCreate2')
           )
-p3.run()
+p2.run()
 
 # visualize output
 !{('head -n 20 data/outCreate2-00000-of-00001')}
 
--------------------------------------------------
+-------------------------------------------
+ex 3
+-------------------------------------------
+import apache_beam as beam
+
+p3 = beam.Pipeline()
+
+
+lines = (p3
+           | beam.Create([("maths",52),("english",75),("science",82), ("computer",65),("maths",85)])
+         
+            | beam.io.WriteToText('data/outCreate3')
+          )
+p3.run()
+
+# visualize output
+!{('head -n 20 data/outCreate3-00000-of-00001')}
+
+-------------------------------------------
+ex 4
+-------------------------------------------
 
 import apache_beam as beam
 
 p4 = beam.Pipeline()
 
-
-lines = (p4
-           | beam.Create([("maths",52),("english",75),("science",82), ("computer",65),("maths",85)])
-         
-            | beam.io.WriteToText('data/outCreate3')
-          )
-p4.run()
-
-# visualize output
-!{('head -n 20 data/outCreate3-00000-of-00001')}
-
-----------------------------------------------------------------
-
-import apache_beam as beam
-
-p5 = beam.Pipeline()
-
-lines = ( p5
+lines = ( p4
          
        | beam.Create({'row1':[1,2,3,4,5],
                      'row2':[1,2,3,4,5]})
@@ -65,7 +81,7 @@ lines = ( p5
        | beam.io.WriteToText('data/outCreate4')
   )
   
-p5.run()
+p4.run()
 
 # visualize output
 !{('head -n 20 data/outCreate4-00000-of-00001')}
